@@ -217,6 +217,34 @@ func (s *Session) listen(wsConn *websocket.Conn, listening <-chan interface{}) {
 
 		if err != nil {
 
+			switch messageType {
+			case websocket.TextMessage: //文本数据
+				s.log(2, "cool debug: Get TextMessage")
+				s.log(2, string(message))
+			case websocket.BinaryMessage: //二进制数据
+				// fmt.Println(messageData)
+				s.log(2, "cool debug: Get BinaryMessage")
+				messageDataStr := string(message)
+				s.log(2, messageDataStr)
+
+			case websocket.CloseMessage: //关闭
+				s.log(2, "cool debug: Get CloseMessage")
+				messageDataStr := string(message)
+				s.log(2, messageDataStr)
+			case websocket.PingMessage: //Ping
+				s.log(2, "cool debug: Get PingMessage")
+				messageDataStr := string(message)
+				s.log(2, messageDataStr)
+			case websocket.PongMessage: //Pong
+				s.log(2, "cool debug: Get PongMessage")
+				messageDataStr := string(message)
+				s.log(2, messageDataStr)
+			default:
+				s.log(2, "cool debug: Get UnknowTypeMessage")
+				messageDataStr := string(message)
+				s.log(2, messageDataStr)
+			}
+
 			// Detect if we have been closed manually. If a Close() has already
 			// happened, the websocket we are listening on will be different to
 			// the current session.
@@ -662,10 +690,10 @@ type voiceChannelJoinOp struct {
 
 // ChannelVoiceJoin joins the session user to a voice channel.
 //
-//    gID     : Guild ID of the channel to join.
-//    cID     : Channel ID of the channel to join.
-//    mute    : If true, you will be set to muted upon joining.
-//    deaf    : If true, you will be set to deafened upon joining.
+//	gID     : Guild ID of the channel to join.
+//	cID     : Channel ID of the channel to join.
+//	mute    : If true, you will be set to muted upon joining.
+//	deaf    : If true, you will be set to deafened upon joining.
 func (s *Session) ChannelVoiceJoin(gID, cID string, mute, deaf bool) (voice *VoiceConnection, err error) {
 
 	s.log(LogInformational, "called")
@@ -709,10 +737,10 @@ func (s *Session) ChannelVoiceJoin(gID, cID string, mute, deaf bool) (voice *Voi
 //
 // This should only be used when the VoiceServerUpdate will be intercepted and used elsewhere.
 //
-//    gID     : Guild ID of the channel to join.
-//    cID     : Channel ID of the channel to join, leave empty to disconnect.
-//    mute    : If true, you will be set to muted upon joining.
-//    deaf    : If true, you will be set to deafened upon joining.
+//	gID     : Guild ID of the channel to join.
+//	cID     : Channel ID of the channel to join, leave empty to disconnect.
+//	mute    : If true, you will be set to muted upon joining.
+//	deaf    : If true, you will be set to deafened upon joining.
 func (s *Session) ChannelVoiceJoinManual(gID, cID string, mute, deaf bool) (err error) {
 
 	s.log(LogInformational, "called")
