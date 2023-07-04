@@ -216,7 +216,7 @@ func (s *Session) listen(wsConn *websocket.Conn, listening <-chan interface{}) {
 		messageType, message, err := wsConn.ReadMessage()
 
 		if err != nil {
-
+			s.log(2, "cool debug: read one message")
 			switch messageType {
 			case websocket.TextMessage: //文本数据
 				s.log(2, "cool debug: Get TextMessage")
