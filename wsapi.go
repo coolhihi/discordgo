@@ -216,35 +216,6 @@ func (s *Session) listen(wsConn *websocket.Conn, listening <-chan interface{}) {
 		messageType, message, err := wsConn.ReadMessage()
 
 		if err != nil {
-			s.log(2, "cool debug: read one message")
-			switch messageType {
-			case websocket.TextMessage: //文本数据
-				s.log(2, "cool debug: Get TextMessage")
-				s.log(2, string(message))
-			case websocket.BinaryMessage: //二进制数据
-				// fmt.Println(messageData)
-				s.log(2, "cool debug: Get BinaryMessage")
-				messageDataStr := string(message)
-				s.log(2, messageDataStr)
-
-			case websocket.CloseMessage: //关闭
-				s.log(2, "cool debug: Get CloseMessage")
-				messageDataStr := string(message)
-				s.log(2, messageDataStr)
-			case websocket.PingMessage: //Ping
-				s.log(2, "cool debug: Get PingMessage")
-				messageDataStr := string(message)
-				s.log(2, messageDataStr)
-			case websocket.PongMessage: //Pong
-				s.log(2, "cool debug: Get PongMessage")
-				messageDataStr := string(message)
-				s.log(2, messageDataStr)
-			default:
-				s.log(2, "cool debug: Get UnknowTypeMessage")
-				messageDataStr := string(message)
-				s.log(2, messageDataStr)
-			}
-
 			// Detect if we have been closed manually. If a Close() has already
 			// happened, the websocket we are listening on will be different to
 			// the current session.
@@ -267,6 +238,35 @@ func (s *Session) listen(wsConn *websocket.Conn, listening <-chan interface{}) {
 			}
 
 			return
+		}
+
+		s.log(2, "cool debug: read one message")
+		switch messageType {
+		case websocket.TextMessage: //文本数据
+			s.log(2, "cool debug: Get TextMessage")
+			s.log(2, string(message))
+		case websocket.BinaryMessage: //二进制数据
+			// fmt.Println(messageData)
+			s.log(2, "cool debug: Get BinaryMessage")
+			messageDataStr := string(message)
+			s.log(2, messageDataStr)
+
+		case websocket.CloseMessage: //关闭
+			s.log(2, "cool debug: Get CloseMessage")
+			messageDataStr := string(message)
+			s.log(2, messageDataStr)
+		case websocket.PingMessage: //Ping
+			s.log(2, "cool debug: Get PingMessage")
+			messageDataStr := string(message)
+			s.log(2, messageDataStr)
+		case websocket.PongMessage: //Pong
+			s.log(2, "cool debug: Get PongMessage")
+			messageDataStr := string(message)
+			s.log(2, messageDataStr)
+		default:
+			s.log(2, "cool debug: Get UnknowTypeMessage")
+			messageDataStr := string(message)
+			s.log(2, messageDataStr)
 		}
 
 		select {
