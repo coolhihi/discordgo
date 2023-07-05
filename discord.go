@@ -15,7 +15,6 @@ package discordgo
 
 import (
 	"net/http"
-	"runtime"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -26,9 +25,12 @@ const VERSION = "0.27.1"
 
 // New creates a new Discord session with provided token.
 // If the token is for a bot, it must be prefixed with "Bot "
-// 		e.g. "Bot ..."
+//
+//	e.g. "Bot ..."
+//
 // Or if it is an OAuth2 token, it must be prefixed with "Bearer "
-//		e.g. "Bearer ..."
+//
+//	e.g. "Bearer ..."
 func New(token string) (s *Session, err error) {
 
 	// Create an empty Session interface.
@@ -52,11 +54,15 @@ func New(token string) (s *Session, err error) {
 
 	// Initialize the Identify Package with defaults
 	// These can be modified prior to calling Open()
-	s.Identify.Compress = true
+	// s.Identify.Compress = true
+	// s.Identify.LargeThreshold = 250
+	// s.Identify.Properties.OS = runtime.GOOS
+	// s.Identify.Properties.Browser = "DiscordGo v" + VERSION
+	// s.Identify.Intents = IntentsAllWithoutPrivileged
+	s.Identify.Compress = false
 	s.Identify.LargeThreshold = 250
-	s.Identify.Properties.OS = runtime.GOOS
-	s.Identify.Properties.Browser = "DiscordGo v" + VERSION
-	s.Identify.Intents = IntentsAllWithoutPrivileged
+	s.Identify.Properties.OS = "Mac OS X"
+	s.Identify.Properties.Browser = "Chrome"
 	s.Identify.Token = token
 	s.Token = token
 
